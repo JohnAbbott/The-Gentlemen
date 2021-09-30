@@ -9,9 +9,7 @@ Bud humidity
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <DHT.h>                         // Include DHT library code
-#include <ESP8266WiFi.h>
-#include <BlynkSimpleEsp8266.h>
-
+ 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_ADDR 0x3C   // Address may be different for your module, also try with 0x3D if this doesn't work
@@ -31,12 +29,7 @@ float humidityJar1;
 float humidityJar2;
 float humidityJar3;
 float humidityJar4;
-char auth[] = "lgBVO8wqAMe4pAoMuH_6SZoPGc3LR5PU";
-char ssid[] = "The Abbotts"; //Voyager,
-char pass[] = "th3BlueP1t"; //Sp0ckIsNotDead
-
-BlynkTimer timer;
-
+ 
 void setup(void)
 {
  
@@ -78,25 +71,17 @@ void setup(void)
   
   display.display(); 
   delay(2000);
-  
-  Blynk.begin(auth, ssid, pass);
-
-  timer.setInterval(1000L, pushData);
+ 
 }
-
-void pushData()
+ 
+void loop()
 {
-  // You can send any value at any time.
-  // Please don't send more that 10 values per second.
-    // Read humidity
+  
+  // Read humidity
   humidityJar1 = dhtJar1.readHumidity();
   humidityJar2 = dhtJar2.readHumidity();
   humidityJar3 = dhtJar3.readHumidity();
   humidityJar4 = dhtJar4.readHumidity();
-  Blynk.virtualWrite(V1, humidityJar1);
-  Blynk.virtualWrite(V2, humidityJar2);
-  Blynk.virtualWrite(V3, humidityJar3);
-  Blynk.virtualWrite(V4, humidityJar4);
  
   Serial.print("Humidity Jar One: ");
   Serial.println(humidityJar1);
@@ -118,10 +103,7 @@ void pushData()
   display.print(humidityJar4);
 
   display.display();
-}
-
-void loop()
-{
-  Blynk.run();
+ 
+  delay(1000);
  
 }
